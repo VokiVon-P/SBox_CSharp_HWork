@@ -6,9 +6,9 @@
     <projectFile>HW_theme_02/HW_theme_02.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d039ba0d-671c-43ef-b84d-c54885e99ad3" name="Changes" comment="Добавил старый проект HW_01">
+    <list default="true" id="d039ba0d-671c-43ef-b84d-c54885e99ad3" name="Changes" comment="Добавлен проект задания HW_02">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.NET_Base_HWorks/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.NET_Base_HWorks/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NET_Base_HWorks.sln" beforeDir="false" afterPath="$PROJECT_DIR$/NET_Base_HWorks.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HW_theme_02/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HW_theme_02/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +16,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/56996bd5b7b025988834f7db72d610de6637f12f9a6dc6f25950f7f158ef3fc4/ConsolePal.Windows.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7a1ad32abaee44480b66c2c1fcee9628cca92a4cd272eced5781564201180/Number.Parsing.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8dbfec3de4ecbab763b5f839a0be5a95d760af718a668ecab8f63dc8dd9c5c/StringBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HW_theme_01/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HW_theme_01/Repository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HW_theme_01/Worker.cs" root0="FORCE_HIGHLIGHTING" />
@@ -37,14 +40,14 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
+    "settings.editor.selected.configurable": "HotReloadSettingsPage",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RiderProblemsViewState">
     <option name="proportion" value="0.66847825" />
   </component>
-  <component name="RunManager" selected=".NET Project.HW_theme_01">
+  <component name="RunManager" selected=".NET Project.HW_theme_02">
     <configuration name="HW_theme_01" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/HW_theme_01/bin/Debug/net6.0/HW_theme_01.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -63,10 +66,10 @@
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="HW_theme_02" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+    <configuration name="HW_theme_02" type="DotNetProject" factoryName=".NET Project" singleton="false">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/HW_theme_02/bin/Debug/net6.0/HW_theme_02.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/HW_theme_02/bin/Debug/net6.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -76,7 +79,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net6.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -95,7 +98,7 @@
       <option name="presentableId" value="Default" />
       <updated>1651092717164</updated>
       <workItem from="1651092725608" duration="61000" />
-      <workItem from="1651093021181" duration="4517000" />
+      <workItem from="1651093021181" duration="21159000" />
     </task>
     <task id="LOCAL-00001" summary="Создал головное решение&#10;Добавил старый проект HW_01">
       <created>1651095249490</created>
@@ -132,7 +135,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651095756595</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Добавлен проект задания HW_02">
+      <created>1651097897996</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1651097897996</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,7 +165,8 @@
     <MESSAGE value="Создал головное решение" />
     <MESSAGE value="Init commit - создал решение" />
     <MESSAGE value="Добавил старый проект HW_01" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил старый проект HW_01" />
+    <MESSAGE value="Добавлен проект задания HW_02" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлен проект задания HW_02" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

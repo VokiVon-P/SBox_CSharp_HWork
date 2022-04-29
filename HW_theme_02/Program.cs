@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HW_Theme_02
+﻿namespace HW_theme_02
 {
     class Program
     {
@@ -36,8 +30,64 @@ namespace HW_Theme_02
             // 5. В качестве бонусной части, за дополнительную оплату $50, заказчик просит реализовать 
             //    возможность вывода данных в центре консоли.
 
+            string firstName;
+            string lastName;
+            byte age;
+            uint stature;
+            float scoreHistory, scoreMath, scoreRusLang; 
             
+            ConsoleColor consoleColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = consoleColor;
+            int center = Console.WindowWidth/2;
+            
+            Console.CursorLeft = center;
+            Console.Write("Имя: ");
+            firstName = Console.ReadLine();
+            
+            Console.CursorLeft = center;
+            Console.Write("Фамилия: ");
+            lastName = Console.ReadLine();
+            
+            Console.CursorLeft = center;
+            Console.Write("Возраст: ");
+            age = byte.Parse(Console.ReadLine());
+            
+            Console.CursorLeft = center;
+            Console.Write("Рост: ");
+            stature = uint.Parse(Console.ReadLine());
 
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.CursorLeft = center;
+            Console.Write("Балл по Истории: ");
+            scoreHistory = float.Parse(Console.ReadLine());
+            
+            Console.CursorLeft = center;
+            Console.Write("Балл по Математике: ");
+            scoreMath = float.Parse(Console.ReadLine());
+            
+            Console.CursorLeft = center;
+            Console.Write("Балл по Русскому Языку: ");
+            scoreRusLang = float.Parse(Console.ReadLine());
+
+            float meanScore = (float) ((scoreHistory + scoreMath + scoreRusLang) / 3.0);
+            
+            // Вывод результатов
+            
+            Console.WriteLine();
+            Console.ForegroundColor = consoleColor;
+            Console.CursorLeft = center;
+            string pattern = "Имя: {0}  Фамилия: {1}  Возраст: {2}  Рост: {3} ";
+            Console.WriteLine(pattern,
+                firstName,
+                lastName,
+                age,
+                stature);
+            
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.CursorLeft = center;
+            Console.WriteLine($"Среднее значение баллов по всем предметам = {meanScore}");
+            
+            Console.ReadKey();
         }
     }
 }
