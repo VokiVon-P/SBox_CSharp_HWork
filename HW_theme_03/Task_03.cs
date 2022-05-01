@@ -55,7 +55,6 @@ namespace HW_theme_03
                 flag = ((value % counter) == 0);
                 Debug.Print($"counter= {counter}, div = ({(value % counter)}), value= {value}");
                 if (flag) break;
-                
                 counter++;
             }
             
