@@ -3,7 +3,7 @@ namespace HW_theme_03
 {
     class Program
     {
-        static void Main(string[] Args)
+        public static void StartBonus(string[] Args)
         {
             // Просматривая сайты по поиску работы, у вас вызывает интерес следующая вакансия:
 
