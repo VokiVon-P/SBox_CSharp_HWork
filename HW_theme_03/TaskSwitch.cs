@@ -38,6 +38,7 @@ public class BaseSwitch
     
     static void CloseProg(string[] Args)
     {
+        Console.WriteLine("Некорректный ввод номера задачи");
         Console.WriteLine("Завершение программы");
         Console.WriteLine("Нажмите любую клавишу...");
         Console.ReadKey();
