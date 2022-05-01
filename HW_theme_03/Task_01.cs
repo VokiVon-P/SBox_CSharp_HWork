@@ -20,7 +20,18 @@ namespace HW_theme_03
     {
         public static void Start(string[] Args)
         {
+            Console.WriteLine("");
             Console.WriteLine("Выполняется Task_01!");
+            Console.WriteLine("Определение четности целого числа\n");
+            
+            Console.Write("Введите целое число: ");
+            int value = int.Parse(Console.ReadLine());
+            if (value % 2 == 0) Console.WriteLine($"Число {value} чётное ");
+            else Console.WriteLine($"Число {value} нечётное ");
+            
+            Console.WriteLine("Нажмите любую клавишу...");
+            Console.ReadKey();
+
         }
     }
 }
