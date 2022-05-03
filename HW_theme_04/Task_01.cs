@@ -41,12 +41,31 @@ namespace HW_theme_04
             int rows = int.Parse(Console.ReadLine());
             Console.Write("Введите число столбцов: ");
             int cols = int.Parse(Console.ReadLine());
+
+            int[,] narray = new int[rows, cols];
             
+            Random random = new Random();
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    // narray[i, j] = random.Next(Int32.MinValue, Int32.MaxValue);
+                    narray[i, j] = random.Next(-100, 100);
+                    
+                    Console.Write($"\t{narray[i,j], 12}");
+                }
+                Console.WriteLine("");
+                
+            }
             
-            
+            // Вывод суммы массива
+            Int64 sum = 0;
+            foreach (var item in narray) sum+=item;
+            Console.WriteLine($"Сумма всех элементов матрицы = {sum}");
+
+            Console.WriteLine();
             Console.WriteLine("Нажмите любую клавишу...");
             Console.ReadKey();
-
         }
     }
 }
