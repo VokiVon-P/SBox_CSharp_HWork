@@ -50,8 +50,6 @@ namespace HW_theme_04
                 for (int j = 0; j < cols; j++)
                 {
                     narray[i, j] = random.Next(Int32.MinValue, Int32.MaxValue);
-                    // narray[i, j] = random.Next(-100, 100);
-                    
                     Console.Write($"\t{narray[i,j], 12}");
                 }
                 Console.WriteLine("");

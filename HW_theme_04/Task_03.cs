@@ -89,27 +89,6 @@ namespace HW_theme_04
                 counter++;
 
             }
-            // if (value <= 1)
-            // {
-            //     Console.WriteLine("Ошибка ввода - завершаем программу");
-            //     Console.WriteLine("Нажмите любую клавишу...");
-            //     Console.ReadKey();
-            //     return;
-            // }
-            //
-            // bool flag = false;
-            // int counter = 2;
-            // while (counter < value)
-            // {
-            //     flag = ((value % counter) == 0);
-            //     Debug.Print($"counter= {counter}, div = ({(value % counter)}), value= {value}");
-            //     if (flag) break;
-            //     counter++;
-            // }
-            //
-            // string result = flag ? $"Число {value} не евляется простым [делится без остатка на {counter}]" 
-            //     : $"Число {value} является простым";
-            // Console.WriteLine(result.ToUpper());
            
             Console.WriteLine();
             Console.WriteLine("Нажмите любую клавишу...");
