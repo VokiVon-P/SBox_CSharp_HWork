@@ -23,10 +23,6 @@ public class BaseSwitch
                 case 2 : Console.WriteLine($"Будет выполнена задача {userChoice}");
                     executor = Task_02.Start;
                     break;
-                // case 3 : Console.WriteLine($"Будет выполнена задача {userChoice}");
-                //     executor = Task_03.Start;
-                //     break;
-
             }
         }
         
