@@ -56,7 +56,7 @@ namespace HW_theme_05
         /// <returns>массив слов</returns>
         static string[] SplitText(string InputText)
         {
-            return InputText.Split();
+            return InputText.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         }
 
         /// <summary>
