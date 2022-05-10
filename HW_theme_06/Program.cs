@@ -87,6 +87,7 @@ void AddPerson()
     Console.Write(employeeInfoHeader[1] + " : ");
     DateTime nowDate = DateTime.Now;
     string now = $"{nowDate.ToShortDateString()} {nowDate.ToShortTimeString()}";
+    Console.WriteLine(now);
     line += now + stripper;
     
     // Ф.И.О.
@@ -112,7 +113,7 @@ void AddPerson()
     // Место рождения
     Console.Write(employeeInfoHeader[6] + " : ");
     string? birthPlace =  Console.ReadLine();
-    line += birthPlace + stripper;
+    line += birthPlace;
 
     using (StreamWriter sw = new StreamWriter(fileEmployees, true, Encoding.Unicode))
     {
