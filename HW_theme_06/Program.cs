@@ -107,9 +107,16 @@ void AddPerson()
 
     // Дату рождения
     Console.Write(employeeInfoHeader[5] + " : ");
-    string birthDate = DateTime.Parse(Console.ReadLine() ?? string.Empty).ToShortDateString();
-    line += birthDate + stripper;
-    
+
+    if (DateTime.TryParse(Console.ReadLine(), out var birthDate))
+    {
+        line += birthDate.ToShortDateString() + stripper;
+    }
+    else
+    {
+        line += stripper;
+    }
+        
     // Место рождения
     Console.Write(employeeInfoHeader[6] + " : ");
     string? birthPlace =  Console.ReadLine();
@@ -118,7 +125,7 @@ void AddPerson()
     using (StreamWriter sw = new StreamWriter(fileEmployees, true, Encoding.Unicode))
     {
         sw.WriteLine(line);  
-        Console.WriteLine(line);
+        // Console.WriteLine(line);
     }
 }
 
