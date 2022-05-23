@@ -8,9 +8,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW_theme_03", "HW_theme_03\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW_theme_04", "HW_theme_04\HW_theme_04.csproj", "{BD954AB7-2570-4677-85BE-7527554311C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW_theme05", "HW_theme05\HW_theme05.csproj", "{E67C2E53-5E97-441D-B38A-B27141EF0403}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW_theme_05", "HW_theme_05\HW_theme_05.csproj", "{E67C2E53-5E97-441D-B38A-B27141EF0403}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW_theme_06", "HW_theme_06\HW_theme_06.csproj", "{76A8311D-2AA6-4AE7-AF9A-DBC5911AD738}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW_theme_07", "HW_theme_07\HW_theme_07.csproj", "{A8254785-5087-48FA-B1FA-204D9F6DD94C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +44,9 @@ Global
 		{76A8311D-2AA6-4AE7-AF9A-DBC5911AD738}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76A8311D-2AA6-4AE7-AF9A-DBC5911AD738}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76A8311D-2AA6-4AE7-AF9A-DBC5911AD738}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8254785-5087-48FA-B1FA-204D9F6DD94C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8254785-5087-48FA-B1FA-204D9F6DD94C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8254785-5087-48FA-B1FA-204D9F6DD94C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8254785-5087-48FA-B1FA-204D9F6DD94C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
