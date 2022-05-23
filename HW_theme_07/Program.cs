@@ -52,8 +52,9 @@ ID
  */
 
 using System.Text;
+using HW_theme_07;
 
-const string fileEmployees = @"Employees.csv";
+const string fileData = @"data.txt";
 const string stripper = "#";
 
 const string infoTemplate = "ID,Дата,Ф.И.О.,Возраст,Рост,Дата рождения,Место рождения";
@@ -61,38 +62,42 @@ string[] employeeInfoHeader = infoTemplate.Split(',');
 
 Random rnd = new Random();
 
-Console.WriteLine("Справочник <Сотрудники>");
-Console.WriteLine();
-Console.WriteLine("[1 - вывод данных на экран]");
-Console.WriteLine("[2 - добавить нового сотрудника]");
-Console.WriteLine("[0 или другой символ - выйти из программы]");
+// Console.WriteLine("Справочник <Сотрудники>");
+// Console.WriteLine();
+// Console.WriteLine("[1 - вывод данных на экран]");
+// Console.WriteLine("[2 - добавить нового сотрудника]");
+// Console.WriteLine("[0 или другой символ - выйти из программы]");
+//
+// bool flagExit = false;
+// while (!flagExit)
+// {
+//     Console.WriteLine();
+//     Console.Write("Введите номер команды: ");
+//     int value;
+//     if (int.TryParse(Console.ReadLine(), out value))
+//         switch (value)
+//         {
+//             case 1:
+//                 ShowEmployees();
+//                 break;
+//             case 2:
+//                 AddPerson();
+//                 break;
+//             default:
+//                 flagExit = true;
+//                 break;
+//             
+//         }
+//     else break;
+// }
+//
+// Console.WriteLine();
+// Console.WriteLine("Завершение программы");
+// Console.Write("Нажмите любую клавишу...");
+// Console.ReadKey();
+Repository repo = new Repository(fileData);
+repo.PrintDbToConsole();
 
-bool flagExit = false;
-while (!flagExit)
-{
-    Console.WriteLine();
-    Console.Write("Введите номер команды: ");
-    int value;
-    if (int.TryParse(Console.ReadLine(), out value))
-        switch (value)
-        {
-            case 1:
-                ShowEmployees();
-                break;
-            case 2:
-                AddPerson();
-                break;
-            default:
-                flagExit = true;
-                break;
-            
-        }
-    else break;
-}
-
-Console.WriteLine();
-Console.WriteLine("Завершение программы");
-Console.Write("Нажмите любую клавишу...");
 Console.ReadKey();
 
 void AddPerson()
@@ -147,7 +152,7 @@ void AddPerson()
     string? birthPlace =  Console.ReadLine();
     line += birthPlace;
 
-    using (StreamWriter sw = new StreamWriter(fileEmployees, true, Encoding.Unicode))
+    using (StreamWriter sw = new StreamWriter(fileData, true, Encoding.Unicode))
     {
         sw.WriteLine(line);  
         // Console.WriteLine(line);
@@ -163,7 +168,7 @@ void ShowEmployees()
 
     try
     {
-        using (StreamReader sr = new StreamReader(fileEmployees, Encoding.Unicode))
+        using (StreamReader sr = new StreamReader(fileData, Encoding.Unicode))
         {
             
             // Console.WriteLine(String.Concat(employeeInfoHeader));
@@ -171,11 +176,15 @@ void ShowEmployees()
             while ((line = sr.ReadLine()) != null)
             {
                 
-                string[] data = line.Split('#');
-                for (int i = 0; i < employeeInfoHeader.Length; i++)
-                {
-                    Console.WriteLine(employeeInfoHeader[i] + "\t" + data[i]);
-                }
+                // string[] data = line.Split('#');
+                // for (int i = 0; i < employeeInfoHeader.Length; i++)
+                // {
+                //     Console.WriteLine(employeeInfoHeader[i] + "\t" + data[i]);
+                // }
+
+                var temp = new Employee(line);
+                temp.Print();
+                
                 
                 Console.WriteLine();
                 Console.WriteLine("----------------------");

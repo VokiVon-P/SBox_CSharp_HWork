@@ -12,24 +12,22 @@ namespace HW_theme_07;
     /// </summary>
     struct Repository
     {
-        private Employee[] workers; // Основной массив для хранения данных
+        private Employee[] _staff; // Основной массив для хранения данных
 
         private string path; // путь к файлу с данными
         
         int index; // текущий элемент для добавления в workers
-
-        string[] titles; // массив, храняий заголовки полей. используется в PrintDbToConsole
-
+        
+        
         /// <summary>
         /// Констрктор
         /// </summary>
-        /// <param name="Path">Путь в файлу с данными</param>
+        /// <param name="Path">Путь к файлу с данными</param>
         public Repository(string Path)
         {
             this.path = Path; // Сохранение пути к файлу с данными
             this.index = 0; // текущая позиция для добавления сотрудника в workers
-            this.titles = new string[0]; // инициализаия массива заголовков   
-            this.workers = new Employee[1]; // инициализаия массива сотрудников.    | изначально предпологаем, что данных нет
+            this._staff = new Employee[1]; // инициализаия массива сотрудников.    | изначально предпологаем, что данных нет
 
             this.Load(); // Загрузка данных
         }
@@ -42,7 +40,7 @@ namespace HW_theme_07;
         {
             if (Flag)
             {
-                Array.Resize(ref this.workers, this.workers.Length * 2);
+                Array.Resize(ref this._staff, this._staff.Length * 2);
             }
         }
 
@@ -50,13 +48,13 @@ namespace HW_theme_07;
         /// Метод добавления сотрудника в хранилище
         /// </summary>
         /// <param name="ConcreteWorker">Сотрудник</param>
-        public void Add(Worker ConcreteWorker)
+        public void Add(Employee ConcreteWorker)
         {
-            this.Resize(index >= this.workers.Length);
-            this.workers[index] = ConcreteWorker;
+            this.Resize(index >= this._staff.Length);
+            this._staff[index] = ConcreteWorker;
             this.index++;
         }
-
+        
         /// <summary>
         /// Метод загрузки данных
         /// </summary>
@@ -64,55 +62,51 @@ namespace HW_theme_07;
         {
             using (StreamReader sr = new StreamReader(this.path))
             {
-                titles = sr.ReadLine().Split(',');
-
-
                 while (!sr.EndOfStream)
                 {
-                    string[] args = sr.ReadLine().Split(',');
-
-                    Add(new Worker(args[0], args[1], args[2], Convert.ToUInt32(args[3]), args[4]));
+                    string line = sr.ReadLine();
+                    Add(new Employee(line));
                 }
             }
         }
         
-        /// <summary>
-        /// Метод сохранения данных
-        /// </summary>
-        /// <param name="Path">Путь к файлу сохранения</param>
-        public void Save(string Path)
-        {
-            string temp = String.Format("{0},{1},{2},{3},{4}",
-                                            this.titles[0],
-                                            this.titles[1],
-                                            this.titles[2],
-                                            this.titles[3],
-                                            this.titles[4]);
-
-            File.AppendAllText(Path, $"{temp}\n");
-
-            for (int i = 0; i < this.index; i++)
-            {
-                temp = String.Format("{0},{1},{2},{3},{4}",
-                                        this.workers[i].FirstName,
-                                        this.workers[i].LastName,
-                                        this.workers[i].Position,
-                                        this.workers[i].Salary,
-                                        this.workers[i].Department);
-                File.AppendAllText(Path, $"{temp}\n");
-            }
-        }
-
+        // /// <summary>
+        // /// Метод сохранения данных
+        // /// </summary>
+        // /// <param name="Path">Путь к файлу сохранения</param>
+        // public void Save(string Path)
+        // {
+        //     string temp = String.Format("{0},{1},{2},{3},{4}",
+        //                                     this.titles[0],
+        //                                     this.titles[1],
+        //                                     this.titles[2],
+        //                                     this.titles[3],
+        //                                     this.titles[4]);
+        //
+        //     File.AppendAllText(Path, $"{temp}\n");
+        //
+        //     for (int i = 0; i < this.index; i++)
+        //     {
+        //         temp = String.Format("{0},{1},{2},{3},{4}",
+        //                                 this.workers[i].FirstName,
+        //                                 this.workers[i].LastName,
+        //                                 this.workers[i].Position,
+        //                                 this.workers[i].Salary,
+        //                                 this.workers[i].Department);
+        //         File.AppendAllText(Path, $"{temp}\n");
+        //     }
+        // }
+        
         /// <summary>
         /// Вывод данных в консоль
         /// </summary>
         public void PrintDbToConsole()
         {
-            Console.WriteLine($"{this.titles[0], 15} {this.titles[1],15} {this.titles[4],15} {this.titles[2],15} {this.titles[3],10}");
-
+            Console.WriteLine(Employee.GetTitleLine());
+        
             for (int i = 0; i < index; i++)
             {
-                Console.WriteLine(this.workers[i].Print());
+                Console.WriteLine(this._staff[i].GetPrintLine());
             }
         }
 
@@ -120,7 +114,6 @@ namespace HW_theme_07;
         /// Количество сотрудников в хранилище
         /// </summary>
         public int Count { get { return this.index; } }
-
 
     }
 
