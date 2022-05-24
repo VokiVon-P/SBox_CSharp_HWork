@@ -70,32 +70,21 @@ namespace HW_theme_07;
             }
         }
         
-        // /// <summary>
-        // /// Метод сохранения данных
-        // /// </summary>
-        // /// <param name="Path">Путь к файлу сохранения</param>
-        // public void Save(string Path)
-        // {
-        //     string temp = String.Format("{0},{1},{2},{3},{4}",
-        //                                     this.titles[0],
-        //                                     this.titles[1],
-        //                                     this.titles[2],
-        //                                     this.titles[3],
-        //                                     this.titles[4]);
-        //
-        //     File.AppendAllText(Path, $"{temp}\n");
-        //
-        //     for (int i = 0; i < this.index; i++)
-        //     {
-        //         temp = String.Format("{0},{1},{2},{3},{4}",
-        //                                 this.workers[i].FirstName,
-        //                                 this.workers[i].LastName,
-        //                                 this.workers[i].Position,
-        //                                 this.workers[i].Salary,
-        //                                 this.workers[i].Department);
-        //         File.AppendAllText(Path, $"{temp}\n");
-        //     }
-        // }
+        /// <summary>
+        /// Метод сохранения данных
+        /// </summary>
+        /// <param name="Path">Путь к файлу сохранения</param>
+        public void Save(string Path)
+        {
+            // перезаписываем файл        
+            File.WriteAllText(Path, String.Empty, Encoding.Unicode);
+            // добавляем содержимое
+            for (int i = 0; i < this.index; i++)
+            {
+                string temp = this._staff[i].GetSaveLine();
+                File.AppendAllText(Path, $"{temp}\n", Encoding.Unicode);
+            }
+        }
         
         /// <summary>
         /// Вывод данных в консоль

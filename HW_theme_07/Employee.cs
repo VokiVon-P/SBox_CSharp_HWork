@@ -62,6 +62,7 @@ public struct Employee
         ID = rnd.Next(1000);
         CreateDate = DateTime.Now;
     }
+    
     /// <summary>
     /// Конструктор с расширенной информацией
     /// </summary>
@@ -117,6 +118,19 @@ public struct Employee
         Console.WriteLine(BirthPlace);
     }
 
+    public string GetSaveLine()
+    {
+        string saveLine = String.Empty;
+        saveLine += ID + stripper;
+        saveLine += CreateDate + stripper;
+        saveLine += FullName + stripper;
+        saveLine += Age + stripper;
+        saveLine += Tall + stripper;
+        saveLine += BirthDate.ToShortDateString() + stripper;
+        saveLine += BirthPlace;
+        return saveLine;
+    }
+    
     /// <summary>
     /// Строка для печати
     /// </summary>

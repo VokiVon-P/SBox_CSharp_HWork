@@ -97,6 +97,7 @@ Random rnd = new Random();
 // Console.ReadKey();
 Repository repo = new Repository(fileData);
 repo.PrintDbToConsole();
+// repo.Save(fileData);
 
 Console.ReadKey();
 
