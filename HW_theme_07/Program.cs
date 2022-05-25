@@ -95,115 +95,60 @@ Random rnd = new Random();
 // Console.WriteLine("Завершение программы");
 // Console.Write("Нажмите любую клавишу...");
 // Console.ReadKey();
+
 Repository repo = new Repository(fileData);
 repo.PrintDbToConsole();
-// repo.Save(fileData);
 
+
+Console.ReadKey();
+AddPerson();
+Console.ReadKey();
+repo.Save(fileData);
 Console.ReadKey();
 
 void AddPerson()
 {
     string line = "";
+    Employee worker = new Employee();
+    string[] employeeInfoHeader = Employee.Titles;
         
     Console.WriteLine("Добавление сотрудника!");
     Console.WriteLine();
 
     // ID
     Console.Write(employeeInfoHeader[0] + " : ");
-    long id = rnd.NextInt64(int.MaxValue);
-    Console.WriteLine(id);
-    line += id + stripper;
+    Console.WriteLine(worker.ID);
     
     // Data
     Console.Write(employeeInfoHeader[1] + " : ");
-    DateTime nowDate = DateTime.Now;
-    string now = $"{nowDate.ToShortDateString()} {nowDate.ToShortTimeString()}";
+    string now = $"{worker.CreateDate.ToShortDateString()} {worker.CreateDate.ToShortTimeString()}";
     Console.WriteLine(now);
-    line += now + stripper;
     
     // Ф.И.О.
     Console.Write(employeeInfoHeader[2] + " : ");
-    string?  fullName = Console.ReadLine();
-    line += fullName + stripper;
+    worker.FullName = Console.ReadLine();
     
     // Возраст
     Console.Write(employeeInfoHeader[3] + " : ");
-    int  age = int.Parse(Console.ReadLine() ?? string.Empty);
-    line += age + stripper;
+    worker.Age = uint.Parse(Console.ReadLine() ?? string.Empty);
 
     // Рост
     Console.Write(employeeInfoHeader[4] + " : ");
-    int  tall = int.Parse(Console.ReadLine() ?? string.Empty);
-    line += tall + stripper;
+    worker.Tall = uint.Parse(Console.ReadLine() ?? string.Empty);
 
     // Дату рождения
     Console.Write(employeeInfoHeader[5] + " : ");
 
     if (DateTime.TryParse(Console.ReadLine(), out var birthDate))
     {
-        line += birthDate.ToShortDateString() + stripper;
-    }
-    else
-    {
-        line += stripper;
+        worker.BirthDate = birthDate;
     }
         
     // Место рождения
     Console.Write(employeeInfoHeader[6] + " : ");
-    string? birthPlace =  Console.ReadLine();
-    line += birthPlace;
+    worker.BirthPlace =  Console.ReadLine();
+    
+    repo.Add(worker);
 
-    using (StreamWriter sw = new StreamWriter(fileData, true, Encoding.Unicode))
-    {
-        sw.WriteLine(line);  
-        // Console.WriteLine(line);
-    }
 }
 
-void ShowEmployees()
-{
-    #region ReadFileEmployees
-    
-    Console.WriteLine("Справочник сотрудников!");
-    Console.WriteLine();
-
-    try
-    {
-        using (StreamReader sr = new StreamReader(fileData, Encoding.Unicode))
-        {
-            
-            // Console.WriteLine(String.Concat(employeeInfoHeader));
-            string? line;
-            while ((line = sr.ReadLine()) != null)
-            {
-                
-                // string[] data = line.Split('#');
-                // for (int i = 0; i < employeeInfoHeader.Length; i++)
-                // {
-                //     Console.WriteLine(employeeInfoHeader[i] + "\t" + data[i]);
-                // }
-
-                var temp = new Employee(line);
-                temp.Print();
-                
-                
-                Console.WriteLine();
-                Console.WriteLine("----------------------");
-                Console.WriteLine();
-            }
-        }
-
-    }
-    catch (FileNotFoundException e)
-    {
-        Console.WriteLine($"Невозможно прочесть файл данных! [{e.FileName}]");
-        Console.WriteLine($"Возможно файл еще не создан!");
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine(e);
-        throw;
-    }
-    
-    #endregion
-}
