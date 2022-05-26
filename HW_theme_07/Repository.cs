@@ -85,6 +85,12 @@ namespace HW_theme_07;
                 File.AppendAllText(Path, $"{temp}\n", Encoding.Unicode);
             }
         }
+
+        public void SortByCreateDate(bool reverseFlag = false)
+        {
+            if (reverseFlag) Array.Reverse(this._staff);
+            else Array.Sort(this._staff);
+        } 
         
         /// <summary>
         /// Вывод данных в консоль

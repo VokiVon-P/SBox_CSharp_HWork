@@ -1,6 +1,6 @@
 namespace HW_theme_07;
 
-public struct Employee
+public struct Employee : IComparable
 {
     private const string stripper = "#"; // разделитель для загрузки/сохранения
     
@@ -148,7 +148,22 @@ public struct Employee
     {
         return $"{Titles[0],15} {Titles[1],20} {Titles[2],40} {Titles[3],8} {Titles[4],8} {Titles[5],20} {Titles[6],20}";
     }
-    
-    
-    
+
+
+    /// <summary>
+    /// Сравнение по дате создания
+    /// </summary>
+    /// <param name="obj">предполагается Employee</param>
+    /// <returns>результат сравнения</returns>
+    public int CompareTo(object? obj)
+    {
+        if (obj is null) return 1;
+        
+        Employee otherWorker = (Employee) obj;
+        if (otherWorker.CreateDate == DateTime.MinValue) return 1;
+        else
+        {
+            return this.CreateDate.CompareTo(otherWorker.CreateDate);
+        }
+    }
 }

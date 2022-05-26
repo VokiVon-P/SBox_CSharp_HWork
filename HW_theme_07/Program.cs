@@ -98,12 +98,20 @@ Random rnd = new Random();
 
 Repository repo = new Repository(fileData);
 repo.PrintDbToConsole();
-
-
 Console.ReadKey();
-AddPerson();
+
+repo.SortByCreateDate();
+repo.PrintDbToConsole();
+// AddPerson();
 Console.ReadKey();
-repo.Save(fileData);
+
+Console.WriteLine();
+Console.WriteLine(DateTime.MinValue);
+Console.WriteLine();
+
+repo.SortByCreateDate(true);
+repo.PrintDbToConsole();
+// repo.Save(fileData);
 Console.ReadKey();
 
 void AddPerson()
