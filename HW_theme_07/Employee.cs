@@ -1,8 +1,12 @@
+using System.Globalization;
+
 namespace HW_theme_07;
 
 public struct Employee : IComparable
 {
     private const string stripper = "#"; // разделитель для загрузки/сохранения
+    // форматирование дат при чтении/записи
+    DateTimeFormatInfo _formatter = new CultureInfo("ru-RU").DateTimeFormat;
     
     const string infoTemplate = "ID,Дата и время записи,Ф.И.О.,Возраст,Рост,Дата рождения,Место рождения";
 
@@ -92,11 +96,11 @@ public struct Employee : IComparable
         string[] _loadData = loadInfo.Split('#');
         
         ID = Convert.ToInt64(_loadData[0]);
-        CreateDate = Convert.ToDateTime(_loadData[1]);
+        CreateDate = Convert.ToDateTime(_loadData[1], _formatter );
         FullName = _loadData[2];
         Age = Convert.ToUInt32(_loadData[3]);
         Tall = Convert.ToUInt32(_loadData[4]);
-        BirthDate = Convert.ToDateTime(_loadData[5]);
+        BirthDate = Convert.ToDateTime(_loadData[5], _formatter);
         BirthPlace = _loadData[6];
     }
     
@@ -118,15 +122,19 @@ public struct Employee : IComparable
         Console.WriteLine(BirthPlace);
     }
 
+    /// <summary>
+    /// Получение строки для записи в файл
+    /// </summary>
+    /// <returns>строка для записи</returns>
     public string GetSaveLine()
     {
         string saveLine = String.Empty;
         saveLine += ID + stripper;
-        saveLine += CreateDate + stripper;
+        saveLine += CreateDate.ToString(_formatter) + stripper;
         saveLine += FullName + stripper;
         saveLine += Age + stripper;
         saveLine += Tall + stripper;
-        saveLine += BirthDate.ToShortDateString() + stripper;
+        saveLine += BirthDate.ToString(format:_formatter.ShortDatePattern) + stripper;
         saveLine += BirthPlace;
         return saveLine;
     }
