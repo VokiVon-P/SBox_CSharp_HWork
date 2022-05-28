@@ -60,6 +60,26 @@ namespace HW_theme_07;
             this._staff[_index] = ConcreteWorker;
             this._index++;
         }
+
+        /// <summary>
+        /// Возвращает индекс элемента по его ID
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns>индекс или -1 если не найден </returns>
+        private int IndexByID(uint ID)
+        {
+            int fIdx = -1;
+            for (int i = 0; i < _index; i++)
+            {
+                if (_staff[i].ID==ID)
+                {
+                    fIdx = i;
+                    break;
+                }
+            }
+
+            return fIdx;
+        }
         
         /// <summary>
         /// Удаление элемента по индексу в массиве
@@ -85,20 +105,10 @@ namespace HW_theme_07;
         /// Удаление элемента по ID
         /// </summary>
         /// <param name="ID">ID элемента</param>
-        public void Remove(int ID)
+        public void Remove(uint ID)
         {
-            int fIdx = -1;
-            for (int i = 0; i < _index; i++)
-            {
-                if (_staff[i].ID==ID)
-                {
-                    fIdx = i;
-                    break;
-                }
-            }
-            
-            Console.WriteLine(fIdx);
-            RemoveAt(fIdx);
+            int fIdx = IndexByID(ID);
+            if (fIdx >= 0) RemoveAt(fIdx); 
         }
 
 
