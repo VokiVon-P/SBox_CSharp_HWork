@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
+
 
 namespace HW_theme_07;
 
@@ -16,7 +12,7 @@ namespace HW_theme_07;
 
         private string path; // путь к файлу с данными
         
-        int index; // текущий элемент для добавления в workers
+        int _index; // текущий элемент для добавления в workers
         
         
         /// <summary>
@@ -26,7 +22,7 @@ namespace HW_theme_07;
         public Repository(string Path)
         {
             this.path = Path; // Сохранение пути к файлу с данными
-            this.index = 0; // текущая позиция для добавления сотрудника в workers
+            this._index = 0; // текущая позиция для добавления сотрудника в workers
             this._staff = new Employee[1]; // инициализаия массива сотрудников.    | изначально предпологаем, что данных нет
 
             this.Load(); // Загрузка данных
@@ -43,6 +39,7 @@ namespace HW_theme_07;
                 Array.Resize(ref this._staff, this._staff.Length * 2);
             }
         }
+        
 
         /// <summary>
         /// Индексатор
@@ -59,11 +56,53 @@ namespace HW_theme_07;
         /// <param name="ConcreteWorker">Сотрудник</param>
         public void Add(Employee ConcreteWorker)
         {
-            this.Resize(index >= this._staff.Length);
-            this._staff[index] = ConcreteWorker;
-            this.index++;
+            this.Resize(_index >= this._staff.Length);
+            this._staff[_index] = ConcreteWorker;
+            this._index++;
         }
         
+        /// <summary>
+        /// Удаление элемента по индексу в массиве
+        /// </summary>
+        /// <param name="index">индекс в массиве</param>
+        public void RemoveAt(int index)
+        {
+            // сдвигаем элементы вверх после индекса
+            for (int i = index; i < _index - 1; i++)
+            {
+                // сдвигаем элементы вверх после индекса
+                _staff[i] = _staff[i + 1];
+            }
+            // уменьшаем размер значимой части
+            _index--;
+            
+            // можно еще сжать сам размер массива
+            // Array.Resize(ref _staff, _staff.Length - 1);
+        }
+
+
+        /// <summary>
+        /// Удаление элемента по ID
+        /// </summary>
+        /// <param name="ID">ID элемента</param>
+        public void Remove(int ID)
+        {
+            int fIdx = -1;
+            for (int i = 0; i < _index; i++)
+            {
+                if (_staff[i].ID==ID)
+                {
+                    fIdx = i;
+                    break;
+                }
+            }
+            
+            Console.WriteLine(fIdx);
+            RemoveAt(fIdx);
+        }
+
+
+
         /// <summary>
         /// Метод загрузки данных
         /// </summary>
@@ -88,7 +127,7 @@ namespace HW_theme_07;
             // перезаписываем файл        
             File.WriteAllText(Path, String.Empty, Encoding.Unicode);
             // добавляем содержимое
-            for (int i = 0; i < this.index; i++)
+            for (int i = 0; i < this._index; i++)
             {
                 string saveLine = this._staff[i].GetSaveLine();
                 File.AppendAllText(Path, $"{saveLine}\n", Encoding.Unicode);
@@ -102,7 +141,7 @@ namespace HW_theme_07;
         public void SortByCreateDate(bool ReverseFlag = false)
         {
             // срез содержательной части массива
-            Range idxRange = new Range(0, index);
+            Range idxRange = new Range(0, _index);
             var tempStaff = _staff[idxRange];
             
             // непосредственно сортировка
@@ -120,16 +159,18 @@ namespace HW_theme_07;
         {
             Console.WriteLine(Employee.GetTitleLine());
         
-            for (int i = 0; i < index; i++)
+            for (int i = 0; i < _index; i++)
             {
                 Console.WriteLine(this._staff[i].GetPrintLine());
             }
+            Console.WriteLine($"Кол-во элементов в хранилище: {Count}");
+            Console.WriteLine();
         }
 
         /// <summary>
         /// Количество сотрудников в хранилище
         /// </summary>
-        public int Count { get { return this.index; } }
+        public int Count { get { return this._index; } }
 
     }
 

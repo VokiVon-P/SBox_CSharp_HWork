@@ -66,7 +66,7 @@ public struct Employee : IComparable
         ID = rnd.Next(1000);
         CreateDate = DateTime.Now;
     }
-    
+  
     /// <summary>
     /// Конструктор с расширенной информацией
     /// </summary>
