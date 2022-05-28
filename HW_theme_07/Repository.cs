@@ -45,6 +45,15 @@ namespace HW_theme_07;
         }
 
         /// <summary>
+        /// Индексатор
+        /// </summary>
+        /// <param name="Idx">Индекс элемента</param>
+        public Employee this[int Idx]
+        {
+            get { return this._staff[Idx]; }
+        }
+        
+        /// <summary>
         /// Метод добавления сотрудника в хранилище
         /// </summary>
         /// <param name="ConcreteWorker">Сотрудник</param>
@@ -81,15 +90,27 @@ namespace HW_theme_07;
             // добавляем содержимое
             for (int i = 0; i < this.index; i++)
             {
-                string temp = this._staff[i].GetSaveLine();
-                File.AppendAllText(Path, $"{temp}\n", Encoding.Unicode);
+                string saveLine = this._staff[i].GetSaveLine();
+                File.AppendAllText(Path, $"{saveLine}\n", Encoding.Unicode);
             }
         }
 
-        public void SortByCreateDate(bool reverseFlag = false)
+        /// <summary>
+        /// Сортировка по дате создания
+        /// </summary>
+        /// <param name="ReverseFlag">Флаг убывания</param>
+        public void SortByCreateDate(bool ReverseFlag = false)
         {
-            if (reverseFlag) Array.Reverse(this._staff);
-            else Array.Sort(this._staff);
+            // срез содержательной части массива
+            Range idxRange = new Range(0, index);
+            var tempStaff = _staff[idxRange];
+            
+            // непосредственно сортировка
+            if (ReverseFlag) Array.Reverse(tempStaff);
+            else Array.Sort(tempStaff);
+            
+            // запись в хранилище
+            tempStaff.CopyTo(this._staff, 0);
         } 
         
         /// <summary>
