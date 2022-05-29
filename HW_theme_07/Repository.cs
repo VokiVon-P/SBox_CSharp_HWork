@@ -16,7 +16,7 @@ namespace HW_theme_07;
         
         
         /// <summary>
-        /// Констрктор
+        /// Конструктор
         /// </summary>
         /// <param name="Path">Путь к файлу с данными</param>
         public Repository(string Path)
@@ -27,6 +27,21 @@ namespace HW_theme_07;
 
             this.Load(); // Загрузка данных
         }
+        
+        /// <summary>
+        /// Конструктор c ограничением по диапазону дат
+        /// </summary>
+        /// <param name="Path">Путь к файлу с данными</param>
+        public Repository(string Path, DateTime leftDate, DateTime rightDate)
+        {
+            this.path = Path; // Сохранение пути к файлу с данными
+            this._index = 0; // текущая позиция для добавления сотрудника в workers
+            this._staff = new Employee[1]; // инициализаия массива сотрудников.    | изначально предпологаем, что данных нет
+
+            this.LoadByDates(leftDate, rightDate); // Загрузка данных по диапазону дат ключительно
+        }
+        
+        
 
         /// <summary>
         /// Метод увеличения текущего хранилища
@@ -39,16 +54,7 @@ namespace HW_theme_07;
                 Array.Resize(ref this._staff, this._staff.Length * 2);
             }
         }
-        
 
-        /// <summary>
-        /// Индексатор
-        /// </summary>
-        /// <param name="Idx">Индекс элемента</param>
-        public Employee this[int Idx]
-        {
-            get { return this._staff[Idx]; }
-        }
         
         /// <summary>
         /// Метод добавления сотрудника в хранилище
@@ -64,14 +70,14 @@ namespace HW_theme_07;
         /// <summary>
         /// Возвращает индекс элемента по его ID
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="Id"></param>
         /// <returns>индекс или -1 если не найден </returns>
-        private int IndexByID(uint ID)
+        private int IndexByID(uint Id)
         {
             int fIdx = -1;
             for (int i = 0; i < _index; i++)
             {
-                if (_staff[i].ID==ID)
+                if (_staff[i].ID==Id)
                 {
                     fIdx = i;
                     break;
@@ -80,12 +86,24 @@ namespace HW_theme_07;
 
             return fIdx;
         }
+
+        private void Replace(int index, Employee worker)
+        {
+            if (index >= 0 & index < _index)
+            {
+                _staff[index] = worker;
+            }
+            else
+            {
+                Console.WriteLine($"Индекс index={index} выходит за пределы допустимого диапазона");
+            }
+        }
         
         /// <summary>
         /// Удаление элемента по индексу в массиве
         /// </summary>
         /// <param name="index">индекс в массиве</param>
-        public void RemoveAt(int index)
+        private void RemoveAt(int index)
         {
             // сдвигаем элементы вверх после индекса
             for (int i = index; i < _index - 1; i++)
@@ -104,11 +122,16 @@ namespace HW_theme_07;
         /// <summary>
         /// Удаление элемента по ID
         /// </summary>
-        /// <param name="ID">ID элемента</param>
-        public void Remove(uint ID)
+        /// <param name="Id">ID элемента</param>
+        public void Remove(uint Id)
         {
-            int fIdx = IndexByID(ID);
+            int fIdx = IndexByID(Id);
             if (fIdx >= 0) RemoveAt(fIdx); 
+        }
+
+        public void ReplaceByID(uint Id, Employee worker)
+        {
+            Replace(IndexByID(Id), worker);
         }
 
 
@@ -118,12 +141,34 @@ namespace HW_theme_07;
         /// </summary>
         private void Load()
         {
-            using (StreamReader sr = new StreamReader(this.path))
+            using (StreamReader sr = new StreamReader(path))
             {
                 while (!sr.EndOfStream)
                 {
                     string line = sr.ReadLine();
                     Add(new Employee(line));
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Метод загрузки данных в диапазоне дат (правая граница не включается в диапазон)
+        /// </summary>
+        private void LoadByDates(DateTime leftDate, DateTime rightDate)
+        {
+            using (StreamReader sr = new StreamReader(path))
+            {
+                while (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine();
+                    Employee worker = new Employee(line);
+                    // проверка условия вхождения
+                    if (worker.CreateDate >= leftDate  
+                        & worker.CreateDate < rightDate)
+                    {
+                        Add(worker);    
+                    }
+                    
                 }
             }
         }
@@ -177,6 +222,15 @@ namespace HW_theme_07;
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Индексатор по ID
+        /// </summary>
+        /// <param name="Id">ID сотрудника</param>
+        public Employee this[uint Id]
+        {
+            get { return _staff[IndexByID(Id)]; }
+        }
+        
         /// <summary>
         /// Количество сотрудников в хранилище
         /// </summary>

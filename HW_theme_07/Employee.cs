@@ -4,7 +4,9 @@ namespace HW_theme_07;
 
 public struct Employee : IComparable
 {
-    private const string stripper = "#"; // разделитель для загрузки/сохранения
+    // разделитель для загрузки/сохранения
+    private const string stripper = "#"; 
+    
     // форматирование дат при чтении/записи
     DateTimeFormatInfo _formatter = new CultureInfo("ru-RU").DateTimeFormat;
     
