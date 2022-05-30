@@ -141,36 +141,64 @@ namespace HW_theme_07;
         /// </summary>
         private void Load()
         {
-            using (StreamReader sr = new StreamReader(path))
+            try
             {
-                while (!sr.EndOfStream)
+                using (StreamReader sr = new StreamReader(path))
                 {
-                    string line = sr.ReadLine();
-                    Add(new Employee(line));
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+                        Add(new Employee(line));
+                    }
                 }
             }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine($"Невозможно прочесть файл данных! [{e.FileName}]");
+                Console.WriteLine($"Возможно файл еще не создан!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
+    
         
         /// <summary>
         /// Метод загрузки данных в диапазоне дат (правая граница не включается в диапазон)
         /// </summary>
         private void LoadByDates(DateTime leftDate, DateTime rightDate)
         {
-            using (StreamReader sr = new StreamReader(path))
+            try
             {
-                while (!sr.EndOfStream)
+                using (StreamReader sr = new StreamReader(path))
                 {
-                    string line = sr.ReadLine();
-                    Employee worker = new Employee(line);
-                    // проверка условия вхождения
-                    if (worker.CreateDate >= leftDate  
-                        & worker.CreateDate < rightDate)
+                    while (!sr.EndOfStream)
                     {
-                        Add(worker);    
-                    }
+                        string line = sr.ReadLine();
+                        Employee worker = new Employee(line);
+                        // проверка условия вхождения
+                        if (worker.CreateDate >= leftDate  
+                            & worker.CreateDate < rightDate)
+                        {
+                            Add(worker);    
+                        }
                     
+                    }
                 }
             }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine($"Невозможно прочесть файл данных! [{e.FileName}]");
+                Console.WriteLine($"Возможно файл еще не создан!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+           
         }
         
         /// <summary>

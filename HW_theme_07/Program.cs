@@ -31,7 +31,6 @@ ID
 
  */
 
-using System.Text;
 using HW_theme_07;
 
 const string fileData = @"data.txt";
@@ -247,6 +246,7 @@ void RemovePerson()
     repo.Remove(Id);
     Console.WriteLine($"Сотрудник {worker.FullName} [ID = {worker.ID}] удален из справочника");
 }
+
 // [6] сортировка по возрастанию по дате
 void SortByCreateDate()
 {
