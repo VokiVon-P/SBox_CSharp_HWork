@@ -56,5 +56,6 @@ void PrintRecords()
 
 // ================
 // блок исполнения
+
 AddRecords();
 PrintRecords();

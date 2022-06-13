@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Person name="Иванов Хуан Карлович">
+  <Address>
+    <Street>Новаторов</Street>
+    <HouseNumber>24</HouseNumber>
+    <FlatNumber>13</FlatNumber>
+  </Address>
+  <Phones>
+    <MobilePhone>+7999123456789</MobilePhone>
+    <FlatPhone>+7-495-159-7823</FlatPhone>
+  </Phones>
+</Person>
