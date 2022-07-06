@@ -67,11 +67,11 @@ public static class UpdateHandlers
 
         var action = messageText.Split(' ')[0] switch
         {
-            "/inline"   => SendInlineKeyboard(botClient, message),
-            "/keyboard" => SendReplyKeyboard(botClient, message),
-            "/remove"   => RemoveKeyboard(botClient, message),
+            "/list"   => SendInlineKeyboard(botClient, message),
+            // "/keyboard" => SendReplyKeyboard(botClient, message),
+            // "/remove"   => RemoveKeyboard(botClient, message),
             "/photo"    => SendFile(botClient, message),
-            "/request"  => RequestContactAndLocation(botClient, message),
+            // "/request"  => RequestContactAndLocation(botClient, message),
             _           => Usage(botClient, message)
         };
         Message sentMessage = await action;
@@ -86,26 +86,40 @@ public static class UpdateHandlers
             // Simulate longer running task
             await Task.Delay(500);
 
-            InlineKeyboardMarkup inlineKeyboard = new(
-                new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1.1", "11"),
-                        InlineKeyboardButton.WithCallbackData("1.2", "12"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("2.1", "21"),
-                        InlineKeyboardButton.WithCallbackData("2.2", "22"),
-                    },
-                });
-
+            // InlineKeyboardMarkup inlineKeyboard = new(
+            //     new[]
+            //     {
+            //         new []{InlineKeyboardButton.WithCallbackData("file_1", "01")}   ,
+            //         new []{InlineKeyboardButton.WithCallbackData("file_2", "02")}   ,
+            //         new []{InlineKeyboardButton.WithCallbackData("file_3", "03")}   ,
+            //         new []{InlineKeyboardButton.WithCallbackData("file_4", "04")}   ,
+            //         new []{InlineKeyboardButton.WithCallbackData("file_5", "05")}   ,
+            //         // // first row
+            //         // new []
+            //         // {
+            //         //     InlineKeyboardButton.WithCallbackData("1.1", "11"),
+            //         //     InlineKeyboardButton.WithCallbackData("1.2", "12"),
+            //         // },
+            //         // // second row
+            //         // new []
+            //         // {
+            //         //     InlineKeyboardButton.WithCallbackData("2.1", "21"),
+            //         //     InlineKeyboardButton.WithCallbackData("2.2", "22"),
+            //         // },
+            //     });
+            //
+            // return await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
+            //                                             text: "Choose",
+            //                                             replyMarkup: inlineKeyboard);
+            const string usage = "Выберите файл:\n" +
+                                 "/file_01\n" +
+                                 // "/keyboard - send custom keyboard\n" +
+                                 // "/remove   - remove custom keyboard\n" +
+                                 "/file_02\n"; 
             return await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                        text: "Choose",
-                                                        replyMarkup: inlineKeyboard);
+                                                        text: usage
+                                                        );
+            
         }
 
         static async Task<Message> SendReplyKeyboard(ITelegramBotClient botClient, Message message)
@@ -115,6 +129,7 @@ public static class UpdateHandlers
                 {
                         new KeyboardButton[] { "1.1", "1.2" },
                         new KeyboardButton[] { "2.1", "2.2" },
+                        new KeyboardButton[] { "3.1", "3.2" },
                 })
                 {
                     ResizeKeyboard = true
@@ -136,13 +151,13 @@ public static class UpdateHandlers
         {
             await botClient.SendChatActionAsync(message.Chat.Id, ChatAction.UploadPhoto);
 
-            const string filePath = @"Files/tux.png";
+            const string filePath = @"photo/01.jpg";
             using FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
             var fileName = filePath.Split(Path.DirectorySeparatorChar).Last();
 
             return await botClient.SendPhotoAsync(chatId: message.Chat.Id,
                                                   photo: new InputOnlineFile(fileStream, fileName),
-                                                  caption: "Nice Picture");
+                                                  caption: "Случайная картинка");
         }
 
         static async Task<Message> RequestContactAndLocation(ITelegramBotClient botClient, Message message)
@@ -162,11 +177,11 @@ public static class UpdateHandlers
         static async Task<Message> Usage(ITelegramBotClient botClient, Message message)
         {
             const string usage = "Usage:\n" +
-                                 "/inline   - send inline keyboard\n" +
-                                 "/keyboard - send custom keyboard\n" +
-                                 "/remove   - remove custom keyboard\n" +
-                                 "/photo    - send a photo\n" +
-                                 "/request  - request location or contact";
+                                 "/list   - получить список файлов\n" +
+                                 // "/keyboard - send custom keyboard\n" +
+                                 // "/remove   - remove custom keyboard\n" +
+                                 "/photo    - получить случайную картинку\n"; 
+                                 // + "/request  - request location or contact";
 
             return await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                         text: usage,

@@ -6,7 +6,7 @@ using Telegram.Bot.Polling;
 using Telegram.Bot.Types.Enums;
 
 Console.WriteLine("Hello, Voki Bot!");
-Console.WriteLine($"{BotConfig.BotToken}");
+// Console.WriteLine($"{BotConfig.BotToken}");
 
 var bot = new TelegramBotClient(BotConfig.BotToken);
 
