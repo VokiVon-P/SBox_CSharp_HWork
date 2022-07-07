@@ -62,6 +62,29 @@ public static class UpdateHandlers
         Console.WriteLine($"{text} TypeMessage: {message.Type.ToString()}");
         Console.WriteLine($"Receive message type: {message.Type}");
 
+        if (message.Type is MessageType.Document)
+        {
+            Console.WriteLine(message.Document.FileId);
+            Console.WriteLine(message.Document.FileName);
+            Console.WriteLine(message.Document.FileSize);
+            await DownLoadFile(botClient, message, message.Document.FileName, message.Document.FileId);
+            return;
+        }
+
+        if (message.Type is MessageType.Photo)
+        {
+            Console.WriteLine(message.Photo);
+            return;
+        }
+        
+        if (message.Type is MessageType.Video)
+        {
+            Console.WriteLine(message.Video.FileId);
+            Console.WriteLine(message.Video.FileName);
+            await DownLoadFile(botClient, message, message.Video.FileName, message.Video.FileId);
+            return;
+        }
+
         if (message.Text is not { } messageText)
             return;
 
@@ -70,7 +93,7 @@ public static class UpdateHandlers
             "/list"   => SendInlineKeyboard(botClient, message),
             // "/keyboard" => SendReplyKeyboard(botClient, message),
             // "/remove"   => RemoveKeyboard(botClient, message),
-            "/photo"    => SendFile(botClient, message),
+            "/photo"    => SendPhotoFile(botClient, message),
             // "/request"  => RequestContactAndLocation(botClient, message),
             _           => Usage(botClient, message)
         };
@@ -146,8 +169,22 @@ public static class UpdateHandlers
                                                         text: "Removing keyboard",
                                                         replyMarkup: new ReplyKeyboardRemove());
         }
+        
+        static async Task<Message> DownLoadFile(ITelegramBotClient botClient, Message message, 
+            string fileName, string fileId)
+        {
+            string path = $"./files/{fileName}"; 
+            var file = await botClient.GetFileAsync(fileId);
+            FileStream fs = new FileStream(path, FileMode.Create);
+            await botClient.DownloadFileAsync(file.FilePath, fs);
+            fs.Close();
+            fs.Dispose();
 
-        static async Task<Message> SendFile(ITelegramBotClient botClient, Message message)
+            string text = $"Сохранен файл: {fileName}";
+            return await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: text);
+        }
+
+        static async Task<Message> SendPhotoFile(ITelegramBotClient botClient, Message message)
         {
             await botClient.SendChatActionAsync(message.Chat.Id, ChatAction.UploadPhoto);
 
