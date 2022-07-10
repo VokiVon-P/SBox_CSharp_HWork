@@ -22,6 +22,7 @@ var receiverOptions = new ReceiverOptions()
     ThrowPendingUpdates = true,
 };
 
+
 bot.StartReceiving(updateHandler: UpdateHandlers.HandleUpdateAsync,
     pollingErrorHandler: UpdateHandlers.PollingErrorHandler,
     receiverOptions: receiverOptions,
