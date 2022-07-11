@@ -75,9 +75,10 @@ public static class UpdateHandlers
             return;
         }
 
-        if (message.Type is MessageType.Photo)
+        if (message.Type is MessageType.Location or MessageType.Contact)
         {
-            Console.WriteLine(message.Photo);
+            await RemoveKeyboard(botClient, message);
+            Console.WriteLine(message.ToString());
             return;
         }
         
@@ -95,17 +96,16 @@ public static class UpdateHandlers
         var action = messageText.Split(' ')[0] switch
         {
             "/list"   => SendInlineKeyboard(botClient, message),
-            "/keyboard" => SendReplyKeyboard(botClient, message),
-            // "/remove"   => RemoveKeyboard(botClient, message),
             "/photo"    => SendPhotoFile(botClient, message),
-            // "/request"  => RequestContactAndLocation(botClient, message),
+            "/request"  => RequestContactAndLocation(botClient, message),
+            "/sendfile" => SendFile(botClient, message),
             _           => Usage(botClient, message)
         };
         Message sentMessage = await action;
         Console.WriteLine($"The message was sent with id: {sentMessage.MessageId}");
 
-        // Send inline keyboard
-        // You can process responses in BotOnCallbackQueryReceived handler
+        // Кнопки с именами файлов для получения
+        // Ответ обрабатываем в BotOnCallbackQueryReceived handler
         static async Task<Message> SendInlineKeyboard(ITelegramBotClient botClient, Message message)
         {
             await botClient.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
@@ -114,52 +114,19 @@ public static class UpdateHandlers
             // await Task.Delay(500);
             
             //---------------------------
-
             if (_filesDir.Exists)
             {
-                // InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
                 List<List<InlineKeyboardButton>> fileButtons = new List<List<InlineKeyboardButton>>(); 
-                // Console.WriteLine();
-                // Console.WriteLine("Файлы:");
                 FileInfo[] files = _filesDir.GetFiles();
                 foreach (FileInfo file in files)
                 {
-                    fileButtons.Add(new List<InlineKeyboardButton>() 
+                    fileButtons.Add(new List<InlineKeyboardButton>()
+                        // используем хэш из за ограничений на размер передаваемых данных в 64 байта
                         {InlineKeyboardButton.WithCallbackData(file.Name, HashCode.Combine(file.FullName).ToString())});
-                    // fileButtons.Add(InlineKeyboardButton.WithCallbackData(file.Name, file.Name));
-                    // fileButtons.Add(InlineKeyboardButton.WithCallbackData(file.Name, file.Name));
-                    // fileButtons.Add(new List<InlineKeyboardButton>() 
-                        // {InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(file.Name, $"/get {file.Name}")});
-
-
-
                         Console.WriteLine(file.Name);
                 }
                 InlineKeyboardMarkup inlineKeyboard = new(fileButtons);
             
-
-            
-            //     new[]
-            //     {
-            //         new []{InlineKeyboardButton.WithCallbackData("file_1", "01")}   ,
-            //         new []{InlineKeyboardButton.WithCallbackData("file_2", "02")}   ,
-            //         new []{InlineKeyboardButton.WithCallbackData("file_3", "03")}   ,
-            //         new []{InlineKeyboardButton.WithCallbackData("file_4", "04")}   ,
-            //         new []{InlineKeyboardButton.WithCallbackData("file_5", "05")}   ,
-            //         // // first row
-            //         // new []
-            //         // {
-            //         //     InlineKeyboardButton.WithCallbackData("1.1", "11"),
-            //         //     InlineKeyboardButton.WithCallbackData("1.2", "12"),
-            //         // },
-            //         // // second row
-            //         // new []
-            //         // {
-            //         //     InlineKeyboardButton.WithCallbackData("2.1", "21"),
-            //         //     InlineKeyboardButton.WithCallbackData("2.2", "22"),
-            //         // },
-            //     });
-            //
             return await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                         text: "Выберите файл для получения:\n",
                                                         replyMarkup: inlineKeyboard);
@@ -170,40 +137,18 @@ public static class UpdateHandlers
                                                             text: "Нет доступных файлов для получения!"
                                                             );    
             }
-            // const string usage = "Выберите файл:\n" +
-            //                      "/file_01\n" +
-            //                      // "/keyboard - send custom keyboard\n" +
-            //                      // "/remove   - remove custom keyboard\n" +
-            //                      "/file_02\n"; 
-            
             
         }
 
-        static async Task<Message> SendReplyKeyboard(ITelegramBotClient botClient, Message message)
-        {
-            ReplyKeyboardMarkup replyKeyboardMarkup = new(
-                new[]
-                {
-                        new KeyboardButton[] { "1.1", "1.2" },
-                        new KeyboardButton[] { "2.1", "2.2" },
-                        new KeyboardButton[] { "3.1", "3.2" },
-                })
-                {
-                    ResizeKeyboard = true
-                };
-
-            return await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                        text: "Choose",
-                                                        replyMarkup: replyKeyboardMarkup);
-        }
-
+        // удаление клавиатуры
         static async Task<Message> RemoveKeyboard(ITelegramBotClient botClient, Message message)
         {
             return await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                        text: "Removing keyboard",
+                                                        text: "Спасибо за информацию!",
                                                         replyMarkup: new ReplyKeyboardRemove());
         }
         
+        // загрузить файл в хранилище
         static async Task<Message> DownLoadFile(ITelegramBotClient botClient, Message message, 
             string fileName, string fileId)
         {
@@ -218,6 +163,7 @@ public static class UpdateHandlers
             return await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: text);
         }
 
+        // отправить фото в чат
         static async Task<Message> SendPhotoFile(ITelegramBotClient botClient, Message message)
         {
             await botClient.SendChatActionAsync(message.Chat.Id, ChatAction.UploadPhoto);
@@ -232,29 +178,39 @@ public static class UpdateHandlers
         }
         
         
-
+        // запросить локацию или контактные данные
         static async Task<Message> RequestContactAndLocation(ITelegramBotClient botClient, Message message)
         {
             ReplyKeyboardMarkup RequestReplyKeyboard = new(
                 new[]
                 {
-                    KeyboardButton.WithRequestLocation("Location"),
-                    KeyboardButton.WithRequestContact("Contact"),
+                    KeyboardButton.WithRequestLocation("Локация"),
+                    KeyboardButton.WithRequestContact("Контактная информация"),
                 });
 
             return await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                        text: "Who or Where are you?",
+                                                        text: "Вы кто или вы где?",
                                                         replyMarkup: RequestReplyKeyboard);
+        }
+        
+        static async Task<Message> SendFile(ITelegramBotClient botClient, Message message)
+        {
+            const string sendText = "Прикрепите или перетащите файл для отправки в хранилище.\n" +
+                                    "Размер файла не больше 20 мегабайт.";
+
+            return await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
+                text: sendText,
+                replyMarkup: new ReplyKeyboardRemove());
         }
 
         static async Task<Message> Usage(ITelegramBotClient botClient, Message message)
         {
-            const string usage = "Usage:\n" +
+            const string usage = "Использование:\n" +
+                                 "/start или любое слово - данная инструкция\n" +
                                  "/list   - получить список файлов\n" +
-                                 "/keyboard - send custom keyboard\n" +
-                                 // "/remove   - remove custom keyboard\n" +
-                                 "/photo    - получить случайную картинку\n"; 
-                                 // + "/request  - request location or contact";
+                                 "/sendfile - отправить файл в хранилище\n" +
+                                 "/photo    - получить картинку\n" + 
+                                 "/request  - запросить локацию или контактные данные";
 
             return await botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                         text: usage,
@@ -285,6 +241,7 @@ public static class UpdateHandlers
         FileInfo[] files = _filesDir.GetFiles();
         foreach (FileInfo file in files)
         {
+            // находим файл по хэшу
             if (callbackQuery.Data == HashCode.Combine(file.FullName).ToString())
             {
                 text = file.FullName;
